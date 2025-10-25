@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator Template</title>
+    <style>
+        /* This CSS makes the calculator look clean and professional */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .calculator-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .description {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .operation-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .operation-btn {
+            background: #667eea;
+            color: white;
+        }
+        
+        .operation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .reset-btn {
+            background: #e0e0e0;
+            color: #333;
+            width: 100%;
+        }
+        
+        .reset-btn:hover {
+            background: #d0d0d0;
+        }
+        
+        .result-container {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .result-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            color: #333;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            color: #1976d2;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Developer Credit Styling */
+        .developer-credit {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #e0e0e0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0 0 20px 20px;
+            margin: 30px -30px -30px -30px;
+        }
+        
+        .developer-credit p {
+            color: white;
+            font-size: 14px;
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .developer-credit .dev-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    ========================================
+    BASIC CALCULATOR TEMPLATE
+    ========================================
+    This template demonstrates how Claude Skills work:
+    1. Provides a working structure
+    2. Includes clear comments
+    3. Shows best practices
+    4. Easy to customize
+    ========================================
+    -->
+    
+    <div class="calculator-container">
+        <h1>Basic Calculator</h1>
+        <p class="description">Enter two numbers and select an operation</p>
+        
+        <!-- Input fields for the two numbers -->
+        <div class="input-group">
+            <label for="num1">First Number</label>
+            <input type="number" id="num1" placeholder="Enter first number" step="any">
+        </div>
+        
+        <div class="input-group">
+            <label for="num2">Second Number</label>
+            <input type="number" id="num2" placeholder="Enter second number" step="any">
+        </div>
+        
+        <!-- Operation buttons -->
+        <div class="operation-buttons">
+            <button class="operation-btn" onclick="calculate('add')">Add (+)</button>
+            <button class="operation-btn" onclick="calculate('subtract')">Subtract (−)</button>
+            <button class="operation-btn" onclick="calculate('multiply')">Multiply (×)</button>
+            <button class="operation-btn" onclick="calculate('divide')">Divide (÷)</button>
+        </div>
+        
+        <!-- Reset button -->
+        <button class="reset-btn" onclick="resetCalculator()">Reset</button>
+        
+        <!-- Result display -->
+        <div class="result-container" id="resultContainer" style="display: none;">
+            <div class="result-label">Result:</div>
+            <div class="result-value" id="result">0</div>
+        </div>
+        
+        <!-- Educational information box -->
+        <div class="info-box">
+            <h3>How This Works</h3>
+            <p>
+                This calculator uses JavaScript to perform mathematical operations. 
+                When you click an operation button, it:
+                1) Gets the values from both input fields
+                2) Validates that they are valid numbers
+                3) Performs the calculation
+                4) Displays the result
+            </p>
+        </div>
+        
+        <!-- Developer Credit -->
+        <div class="developer-credit">
+            <p>Developed by</p>
+            <p class="dev-name">Rilov</p>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * Main calculation function
+         * This demonstrates how skills provide functional code with clear documentation
+         * @param {string} operation - The type of operation (add, subtract, multiply, divide)
+         */
+        function calculate(operation) {
+            // Step 1: Get values from input fields
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            
+            // Step 2: Validate inputs
+            if (isNaN(num1) || isNaN(num2)) {
+                alert('Please enter valid numbers in both fields');
+                return;
+            }
+            
+            // Step 3: Perform calculation based on operation
+            let result;
+            switch(operation) {
+                case 'add':
+                    result = num1 + num2;
+                    break;
+                case 'subtract':
+                    result = num1 - num2;
+                    break;
+                case 'multiply':
+                    result = num1 * num2;
+                    break;
+                case 'divide':
+                    // Check for division by zero
+                    if (num2 === 0) {
+                        alert('Cannot divide by zero!');
+                        return;
+                    }
+                    result = num1 / num2;
+                    break;
+                default:
+                    alert('Invalid operation');
+                    return;
+            }
+            
+            // Step 4: Display result
+            displayResult(result);
+        }
+        
+        /**
+         * Display the calculation result
+         * @param {number} result - The calculated result
+         */
+        function displayResult(result) {
+            // Round to 4 decimal places if needed
+            const formattedResult = Math.round(result * 10000) / 10000;
+            
+            // Show the result container
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // Update the result value with animation
+            const resultElement = document.getElementById('result');
+            resultElement.style.opacity = '0';
+            resultElement.textContent = formattedResult;
+            
+            // Fade in animation
+            setTimeout(() => {
+                resultElement.style.transition = 'opacity 0.5s';
+                resultElement.style.opacity = '1';
+            }, 10);
+        }
+        
+        /**
+         * Reset the calculator to initial state
+         * This shows how skills include utility functions for better UX
+         */
+        function resetCalculator() {
+            // Clear input fields
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            
+            // Hide result container
+            document.getElementById('resultContainer').style.display = 'none';
+            
+            // Focus on first input for convenience
+            document.getElementById('num1').focus();
+        }
+        
+        // Initialize: Focus on first input when page loads
+        window.onload = function() {
+            document.getElementById('num1').focus();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator Template</title>
+    <style>
+        /* Clean, modern styling for the percentage calculator */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+        }
+        
+        .calculator {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .calculator-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .calculator-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        input {
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 120px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+        
+        .input-label {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #d63447;
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border: 2px solid #28a745;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .how-it-works {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .how-it-works h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .how-it-works p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #e83e8c;
+        }
+        
+        /* Developer Credit Styling */
+        .developer-credit {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #e0e0e0;
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 0 0 16px 16px;
+            margin: 30px -40px -40px -40px;
+        }
+        
+        .developer-credit p {
+            color: white;
+            font-size: 14px;
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .developer-credit .dev-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!--
+    ==========================================
+    PERCENTAGE CALCULATOR TEMPLATE
+    ==========================================
+    This template shows how Claude Skills can:
+    - Provide different calculation types
+    - Include educational explanations
+    - Demonstrate clear code structure
+    ==========================================
+    -->
+    
+    <div class="calculator">
+        <h1>🔢 Percentage Calculator</h1>
+        
+        <!-- Type 1: What is X% of Y? -->
+        <div class="calculator-section">
+            <h3>Calculate Percentage</h3>
+            <div class="input-row">
+                <span class="input-label">What is</span>
+                <input type="number" id="percent1" placeholder="0" step="any">
+                <span class="input-label">% of</span>
+                <input type="number" id="number1" placeholder="0" step="any">
+                <button onclick="calculatePercentOf()">Calculate</button>
+            </div>
+            <div class="result" id="result1">
+                <span class="result-value" id="resultValue1">0</span>
+            </div>
+        </div>
+        
+        <!-- Type 2: X is what % of Y? -->
+        <div class="calculator-section">
+            <h3>Find Percentage</h3>
+            <div class="input-row">
+                <input type="number" id="part" placeholder="0" step="any">
+                <span class="input-label">is what % of</span>
+                <input type="number" id="whole" placeholder="0" step="any">
+                <button onclick="findPercentage()">Calculate</button>
+            </div>
+            <div class="result" id="result2">
+                <span class="result-value" id="resultValue2">0</span>
+            </div>
+        </div>
+        
+        <!-- Type 3: Percentage Change -->
+        <div class="calculator-section">
+            <h3>Percentage Change</h3>
+            <div class="input-row">
+                <span class="input-label">From</span>
+                <input type="number" id="oldValue" placeholder="Old value" step="any">
+                <span class="input-label">to</span>
+                <input type="number" id="newValue" placeholder="New value" step="any">
+                <button onclick="calculateChange()">Calculate</button>
+            </div>
+            <div class="result" id="result3">
+                <span class="result-value" id="resultValue3">0</span>
+            </div>
+        </div>
+        
+        <!-- Educational Section -->
+        <div class="how-it-works">
+            <h3>📚 How Percentage Calculations Work</h3>
+            <p>
+                <strong>Basic Formula:</strong> To find X% of Y, use: <code>result = (X / 100) × Y</code>
+            </p>
+            <p>
+                <strong>Finding Percentage:</strong> To find what % X is of Y: <code>percentage = (X / Y) × 100</code>
+            </p>
+            <p>
+                <strong>Percentage Change:</strong> <code>change = ((new - old) / old) × 100</code>
+            </p>
+            <p style="margin-top: 15px;">
+                <em>This calculator template is part of a Claude Skill that demonstrates how skills provide reusable, 
+                documented code patterns for specific tasks.</em>
+            </p>
+        </div>
+        
+        <!-- Developer Credit -->
+        <div class="developer-credit">
+            <p>Developed by</p>
+            <p class="dev-name">Rilov</p>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * SKILL DEMONSTRATION: Clear, documented calculation functions
+         * Each function shows how skills teach best practices
+         */
+        
+        /**
+         * Calculate what X% of Y equals
+         * Example: What is 20% of 150? Answer: 30
+         */
+        function calculatePercentOf() {
+            // Get input values
+            const percent = parseFloat(document.getElementById('percent1').value);
+            const number = parseFloat(document.getElementById('number1').value);
+            
+            // Validate inputs
+            if (isNaN(percent) || isNaN(number)) {
+                alert('Please enter valid numbers');
+                return;
+            }
+            
+            // Calculate: convert percentage to decimal, then multiply
+            const result = (percent / 100) * number;
+            
+            // Display result with formatting
+            const resultEl = document.getElementById('result1');
+            const valueEl = document.getElementById('resultValue1');
+            
+            resultEl.classList.add('show');
+            valueEl.textContent = `${percent}% of ${number} = ${result.toFixed(2)}`;
+        }
+        
+        /**
+         * Find what percentage X is of Y
+         * Example: 30 is what % of 150? Answer: 20%
+         */
+        function findPercentage() {
+            const part = parseFloat(document.getElementById('part').value);
+            const whole = parseFloat(document.getElementById('whole').value);
+            
+            if (isNaN(part) || isNaN(whole)) {
+                alert('Please enter valid numbers');
+                return;
+            }
+            
+            if (whole === 0) {
+                alert('The whole value cannot be zero');
+                return;
+            }
+            
+            // Calculate percentage
+            const percentage = (part / whole) * 100;
+            
+            // Display result
+            const resultEl = document.getElementById('result2');
+            const valueEl = document.getElementById('resultValue2');
+            
+            resultEl.classList.add('show');
+            valueEl.textContent = `${part} is ${percentage.toFixed(2)}% of ${whole}`;
+        }
+        
+        /**
+         * Calculate percentage change between two values
+         * Positive = increase, Negative = decrease
+         */
+        function calculateChange() {
+            const oldVal = parseFloat(document.getElementById('oldValue').value);
+            const newVal = parseFloat(document.getElementById('newValue').value);
+            
+            if (isNaN(oldVal) || isNaN(newVal)) {
+                alert('Please enter valid numbers');
+                return;
+            }
+            
+            if (oldVal === 0) {
+                alert('The original value cannot be zero');
+                return;
+            }
+            
+            // Calculate percentage change
+            const change = ((newVal - oldVal) / Math.abs(oldVal)) * 100;
+            
+            // Determine if increase or decrease
+            const changeType = change >= 0 ? 'increase' : 'decrease';
+            const absChange = Math.abs(change);
+            
+            // Display result with color coding
+            const resultEl = document.getElementById('result3');
+            const valueEl = document.getElementById('resultValue3');
+            
+            resultEl.classList.add('show');
+            valueEl.textContent = `${absChange.toFixed(2)}% ${changeType}`;
+            
+            // Color code based on change type
+            if (change >= 0) {
+                resultEl.style.borderColor = '#28a745';
+                valueEl.style.color = '#28a745';
+            } else {
+                resultEl.style.borderColor = '#dc3545';
+                valueEl.style.color = '#dc3545';
+            }
+        }
+        
+        /**
+         * SKILL TEACHING POINT:
+         * This template demonstrates how Claude Skills:
+         * 1. Provide working code templates
+         * 2. Include clear documentation
+         * 3. Show best practices (validation, error handling)
+         * 4. Educate users about the underlying concepts
+         * 5. Are easily customizable for specific needs
+         */
+    </script>
+</body>
+</html>

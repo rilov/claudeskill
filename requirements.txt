@@ -1,0 +1,11 @@
+# Project dependencies (non-standard-library)
+# Required for visualization features in `scripts/calculator_engine.py`
+matplotlib>=3.4
+numpy>=1.21
+
+# Notes:
+# - The project uses only Python standard library for core functionality
+#   (json, sys, math, typing, dataclasses, enum, datetime, os, collections).
+# - matplotlib and numpy are optional; if not installed, visualization
+#   features will be disabled (the code falls back gracefully).
+# - Pin versions as appropriate for your environment.

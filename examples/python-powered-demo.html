@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python-Powered Calculator Demo</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            max-width: 800px;
+            width: 100%;
+            color: #eee;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4fbdba;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7ec8e3;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            background: #0f3460;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #16213e;
+        }
+        
+        .demo-section h3 {
+            color: #4fbdba;
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .demo-section h3::before {
+            content: '🐍';
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        .code-block {
+            background: #000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .code-block code {
+            color: #4fbdba;
+        }
+        
+        .comment {
+            color: #666;
+        }
+        
+        .keyword {
+            color: #e91e63;
+        }
+        
+        .string {
+            color: #8bc34a;
+        }
+        
+        .number {
+            color: #ff9800;
+        }
+        
+        .output-section {
+            background: #16213e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .output-label {
+            color: #7ec8e3;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .output-value {
+            color: #4fbdba;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        button {
+            background: #4fbdba;
+            color: #0f3460;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #7ec8e3;
+            transform: translateY(-2px);
+        }
+        
+        .explanation {
+            background: #16213e;
+            border-left: 3px solid #4fbdba;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        
+        .explanation h3 {
+            color: #4fbdba;
+            margin-bottom: 15px;
+        }
+        
+        .explanation p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .explanation ul {
+            color: #aaa;
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .flow-diagram {
+            text-align: center;
+            margin: 20px 0;
+            color: #7ec8e3;
+            font-family: monospace;
+        }
+        
+        .arrow {
+            color: #4fbdba;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <!--
+    =====================================================
+    PYTHON-POWERED CALCULATOR DEMONSTRATION
+    =====================================================
+    This example shows how Claude Skills can combine:
+    1. Python backend for calculations
+    2. HTML/JavaScript frontend for interface
+    3. Integration between the two
+    =====================================================
+    -->
+    
+    <div class="container">
+        <h1>🐍 Python-Powered Calculator</h1>
+        <p class="subtitle">Demonstrating How Claude Skills Execute Python Code</p>
+        
+        <div class="demo-grid">
+            <!-- Python Code Section -->
+            <div class="demo-section">
+                <h3>Python Backend</h3>
+                <div class="code-block">
+                    <code>
+<span class="comment"># Calculator Engine</span>
+<span class="keyword">from</span> scripts.calculator_engine <span class="keyword">import</span> CalculatorEngine
+
+<span class="comment"># Create instance</span>
+calc = CalculatorEngine()
+
+<span class="comment"># Scientific calculation</span>
+result = calc.scientific_calculation(
+    value=<span class="number">45</span>,
+    function=<span class="string">"sin"</span>
+)
+
+<span class="comment"># Financial calculation</span>
+loan = calc.loan_payment(
+    principal=<span class="number">100000</span>,
+    annual_rate=<span class="number">5.5</span>,
+    years=<span class="number">30</span>
+)
+
+<span class="keyword">print</span>(result.formula_used)
+<span class="keyword">print</span>(<span class="string">f"Monthly: ${loan.result['monthly_payment']}"</span>)
+                    </code>
+                </div>
+                
+                <button onclick="simulatePythonExecution()">▶️ Run Python Code</button>
+                
+                <div class="output-section" id="pythonOutput" style="display: none;">
+                    <div class="output-label">Python Output:</div>
+                    <div class="output-value" id="pythonResult"></div>
+                </div>
+            </div>
+            
+            <!-- JavaScript/HTML Section -->
+            <div class="demo-section">
+                <h3>JavaScript Frontend</h3>
+                <div class="code-block">
+                    <code>
+<span class="comment">// Frontend receives Python results</span>
+<span class="keyword">async function</span> callPythonBackend() {
+    <span class="comment">// In real implementation:</span>
+    <span class="comment">// This would call the Python script</span>
+    <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">'/calculate'</span>, {
+        method: <span class="string">'POST'</span>,
+        body: JSON.stringify({
+            type: <span class="string">'scientific'</span>,
+            value: <span class="number">45</span>,
+            function: <span class="string">'sin'</span>
+        })
+    });
+    
+    <span class="keyword">const</span> result = <span class="keyword">await</span> response.json();
+    displayResult(result);
+}
+
+<span class="comment">// Display in UI</span>
+<span class="keyword">function</span> displayResult(data) {
+    document.getElementById(<span class="string">'result'</span>)
+        .textContent = data.result;
+}
+                    </code>
+                </div>
+                
+                <button onclick="simulateJavaScriptExecution()">▶️ Run JavaScript</button>
+                
+                <div class="output-section" id="jsOutput" style="display: none;">
+                    <div class="output-label">JavaScript Output:</div>
+                    <div class="output-value" id="jsResult"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Flow Diagram -->
+        <div class="flow-diagram">
+            <div>👤 User Input</div>
+            <div class="arrow">↓</div>
+            <div>🌐 HTML Form</div>
+            <div class="arrow">↓</div>
+            <div>⚡ JavaScript Validation</div>
+            <div class="arrow">↓</div>
+            <div>🐍 Python Calculation</div>
+            <div class="arrow">↓</div>
+            <div>📊 Result Processing</div>
+            <div class="arrow">↓</div>
+            <div>🎨 Display to User</div>
+        </div>
+        
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h3>🎓 How This Demonstrates Claude Skills</h3>
+            <p>
+                <strong>This example shows that Claude Skills can:</strong>
+            </p>
+            <ul>
+                <li><strong>Execute Python Code:</strong> Complex calculations run in Python backend</li>
+                <li><strong>Generate HTML/JS:</strong> Create interactive frontends programmatically</li>
+                <li><strong>Integrate Systems:</strong> Connect Python calculations with web interfaces</li>
+                <li><strong>Provide Templates:</strong> Reusable patterns for different calculator types</li>
+                <li><strong>Document Process:</strong> Clear explanations of how everything works</li>
+            </ul>
+            
+            <p style="margin-top: 20px;">
+                <strong>The Power of Python in Skills:</strong>
+            </p>
+            <ul>
+                <li>📊 <strong>Advanced Math:</strong> Scientific functions, statistics, matrix operations</li>
+                <li>💰 <strong>Financial Models:</strong> Compound interest, loan calculations, investment analysis</li>
+                <li>📈 <strong>Data Visualization:</strong> Generate graphs and charts with matplotlib</li>
+                <li>🔄 <strong>Batch Processing:</strong> Generate multiple calculators programmatically</li>
+                <li>🔧 <strong>Custom Logic:</strong> Any calculation you can imagine</li>
+            </ul>
+            
+            <p style="margin-top: 20px; color: #4fbdba;">
+                <strong>💡 Key Insight:</strong> Claude Skills aren't just static templates - they can include 
+                executable code that performs real computations, generates dynamic content, and provides 
+                powerful functionality that goes beyond simple HTML/JavaScript.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Simulate Python execution (in reality, this would call the actual Python script)
+        function simulatePythonExecution() {
+            const output = document.getElementById('pythonOutput');
+            const result = document.getElementById('pythonResult');
+            
+            output.style.display = 'block';
+            result.style.opacity = '0';
+            
+            setTimeout(() => {
+                result.innerHTML = `
+                    sin(45) = 0.8509<br>
+                    Monthly Payment: $568.29<br>
+                    <span style="color: #666; font-size: 12px;">
+                    [Calculated by Python backend]
+                    </span>
+                `;
+                result.style.transition = 'opacity 0.5s';
+                result.style.opacity = '1';
+            }, 500);
+        }
+        
+        // Simulate JavaScript execution
+        function simulateJavaScriptExecution() {
+            const output = document.getElementById('jsOutput');
+            const result = document.getElementById('jsResult');
+            
+            output.style.display = 'block';
+            result.style.opacity = '0';
+            
+            setTimeout(() => {
+                result.innerHTML = `
+                    Result received: 0.8509<br>
+                    UI Updated Successfully<br>
+                    <span style="color: #666; font-size: 12px;">
+                    [Displayed by JavaScript frontend]
+                    </span>
+                `;
+                result.style.transition = 'opacity 0.5s';
+                result.style.opacity = '1';
+            }, 500);
+        }
+        
+        // Console demonstration
+        console.log('%c🐍 Python-Powered Calculator Skill', 'color: #4fbdba; font-size: 16px; font-weight: bold');
+        console.log('%cThis demonstrates how Claude Skills can execute Python code for advanced calculations', 'color: #7ec8e3');
+        console.log('\nAvailable Python functions:');
+        console.log('- calculator_engine.py: Full calculation engine');
+        console.log('- generate_calculator.py: HTML generator');
+        console.log('\nTry running: python scripts/calculator_engine.py demo');
+    </script>
+</body>
+</html>

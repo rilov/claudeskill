@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator - Example Output</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .app-container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            max-width: 420px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .app-header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .app-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .app-body {
+            padding: 30px;
+        }
+        
+        .input-section {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-prefix {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-weight: 500;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #43cea2;
+            box-shadow: 0 0 0 3px rgba(67, 206, 162, 0.1);
+        }
+        
+        .tip-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tip-btn {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .tip-btn:hover {
+            border-color: #43cea2;
+            color: #43cea2;
+        }
+        
+        .tip-btn.active {
+            background: #43cea2;
+            border-color: #43cea2;
+            color: white;
+        }
+        
+        .custom-tip-input {
+            grid-column: span 3;
+        }
+        
+        .custom-tip-input input {
+            padding-left: 12px;
+        }
+        
+        .slider-section {
+            margin-bottom: 25px;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .slider-value {
+            color: #43cea2;
+            font-weight: 600;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #43cea2;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .results {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .result-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .result-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .total-row {
+            padding-top: 15px;
+            border-top: 2px solid #dee2e6;
+        }
+        
+        .total-row .result-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .total-row .result-value {
+            font-size: 28px;
+            color: #43cea2;
+        }
+        
+        .per-person {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #43cea2;
+        }
+        
+        .per-person-label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .per-person-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #43cea2;
+        }
+        
+        .info-banner {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .info-banner h4 {
+            color: #a0522d;
+            margin: 0 0 8px;
+            font-size: 14px;
+        }
+        
+        .info-banner p {
+            color: #8b4513;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!--
+    ============================================
+    TIP CALCULATOR - SKILL EXAMPLE OUTPUT
+    ============================================
+    This is an example of what the Calculator Skill
+    can produce. It demonstrates:
+    1. Professional design
+    2. Full functionality
+    3. Clear code documentation
+    4. Educational explanations
+    ============================================
+    -->
+    
+    <div class="app-container">
+        <div class="app-header">
+            <h1>💰 Tip Calculator</h1>
+            <p>Calculate tips and split bills easily</p>
+        </div>
+        
+        <div class="app-body">
+            <!-- Bill Amount Input -->
+            <div class="input-section">
+                <label for="billAmount">Bill Amount</label>
+                <div class="input-wrapper">
+                    <span class="input-prefix">$</span>
+                    <input type="number" id="billAmount" placeholder="0.00" step="0.01" min="0">
+                </div>
+            </div>
+            
+            <!-- Tip Percentage Selection -->
+            <div class="input-section">
+                <label>Select Tip %</label>
+                <div class="tip-selector">
+                    <button class="tip-btn" onclick="selectTip(10)">10%</button>
+                    <button class="tip-btn" onclick="selectTip(15)">15%</button>
+                    <button class="tip-btn" onclick="selectTip(18)">18%</button>
+                    <button class="tip-btn active" onclick="selectTip(20)">20%</button>
+                    <button class="tip-btn" onclick="selectTip(25)">25%</button>
+                    <button class="tip-btn" onclick="selectTip(30)">30%</button>
+                    <div class="custom-tip-input">
+                        <input type="number" id="customTip" placeholder="Custom %" min="0" max="100" onchange="selectCustomTip()">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Number of People -->
+            <div class="slider-section">
+                <div class="slider-label">
+                    <label for="peopleSlider">Number of People</label>
+                    <span class="slider-value" id="peopleCount">1</span>
+                </div>
+                <input type="range" id="peopleSlider" min="1" max="20" value="1" oninput="updatePeople()">
+            </div>
+            
+            <!-- Results Section -->
+            <div class="results">
+                <div class="result-row">
+                    <span class="result-label">Bill Amount</span>
+                    <span class="result-value" id="billDisplay">$0.00</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Tip Amount (<span id="tipPercent">20</span>%)</span>
+                    <span class="result-value" id="tipDisplay">$0.00</span>
+                </div>
+                <div class="result-row total-row">
+                    <span class="result-label">Total Amount</span>
+                    <span class="result-value" id="totalDisplay">$0.00</span>
+                </div>
+            </div>
+            
+            <!-- Per Person Amount -->
+            <div class="per-person" id="perPersonSection" style="display: none;">
+                <div class="per-person-label">Each Person Pays</div>
+                <div class="per-person-amount" id="perPersonAmount">$0.00</div>
+            </div>
+            
+            <!-- Educational Information -->
+            <div class="info-banner">
+                <h4>🎓 How This Calculator Works</h4>
+                <p>
+                    This tip calculator demonstrates a Claude Skill in action. The skill provided:
+                    • The HTML structure and styling template
+                    • JavaScript calculation logic with validation
+                    • Best practices for user experience
+                    • Educational documentation explaining the code
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Formula:</strong> Tip = Bill × (Tip% / 100)<br>
+                    <strong>Total:</strong> Bill + Tip<br>
+                    <strong>Per Person:</strong> Total ÷ Number of People
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * ==========================================
+         * TIP CALCULATOR JAVASCRIPT
+         * ==========================================
+         * This code shows how skills provide:
+         * - Clean, documented functions
+         * - Proper error handling
+         * - User-friendly interactions
+         * ==========================================
+         */
+        
+        // Global state for tip percentage
+        let currentTipPercent = 20;
+        
+        /**
+         * Initialize calculator when page loads
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listener to bill amount
+            document.getElementById('billAmount').addEventListener('input', calculateTip);
+            
+            // Set default tip button as active
+            selectTip(20);
+        });
+        
+        /**
+         * Select a preset tip percentage
+         * @param {number} percent - The tip percentage to apply
+         */
+        function selectTip(percent) {
+            // Update current tip percentage
+            currentTipPercent = percent;
+            
+            // Update button states
+            document.querySelectorAll('.tip-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find and activate the clicked button
+            event.target.classList.add('active');
+            
+            // Clear custom tip input
+            document.getElementById('customTip').value = '';
+            
+            // Recalculate
+            calculateTip();
+        }
+        
+        /**
+         * Handle custom tip percentage input
+         */
+        function selectCustomTip() {
+            const customValue = parseFloat(document.getElementById('customTip').value);
+            
+            if (!isNaN(customValue) && customValue >= 0) {
+                currentTipPercent = customValue;
+                
+                // Remove active state from preset buttons
+                document.querySelectorAll('.tip-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                calculateTip();
+            }
+        }
+        
+        /**
+         * Update the number of people splitting the bill
+         */
+        function updatePeople() {
+            const count = document.getElementById('peopleSlider').value;
+            document.getElementById('peopleCount').textContent = count;
+            
+            // Show/hide per person section
+            const perPersonSection = document.getElementById('perPersonSection');
+            if (count > 1) {
+                perPersonSection.style.display = 'block';
+            } else {
+                perPersonSection.style.display = 'none';
+            }
+            
+            calculateTip();
+        }
+        
+        /**
+         * Main calculation function
+         * This demonstrates the skill's emphasis on clear logic
+         */
+        function calculateTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value) || 0;
+            const tipPercent = currentTipPercent;
+            const numPeople = parseInt(document.getElementById('peopleSlider').value);
+            
+            // Calculate tip and total
+            const tipAmount = billAmount * (tipPercent / 100);
+            const totalAmount = billAmount + tipAmount;
+            
+            // Calculate per person amount if splitting
+            const perPersonAmount = totalAmount / numPeople;
+            
+            // Update display with formatted values
+            updateDisplay({
+                bill: billAmount,
+                tip: tipAmount,
+                total: totalAmount,
+                perPerson: perPersonAmount,
+                tipPercent: tipPercent
+            });
+        }
+        
+        /**
+         * Update all display elements with calculated values
+         * @param {Object} values - Object containing all calculated values
+         */
+        function updateDisplay(values) {
+            // Format currency values
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }).format(amount);
+            };
+            
+            // Update all display elements
+            document.getElementById('billDisplay').textContent = formatCurrency(values.bill);
+            document.getElementById('tipDisplay').textContent = formatCurrency(values.tip);
+            document.getElementById('totalDisplay').textContent = formatCurrency(values.total);
+            document.getElementById('tipPercent').textContent = values.tipPercent;
+            
+            // Update per person amount if visible
+            if (document.getElementById('perPersonSection').style.display !== 'none') {
+                document.getElementById('perPersonAmount').textContent = formatCurrency(values.perPerson);
+            }
+        }
+        
+        /**
+         * ==========================================
+         * EDUCATIONAL NOTE:
+         * ==========================================
+         * This calculator shows how Claude Skills:
+         * 1. Provide complete, working code
+         * 2. Include proper documentation
+         * 3. Follow best practices
+         * 4. Create professional interfaces
+         * 5. Handle edge cases and validation
+         * 
+         * Users can modify this code to:
+         * - Change tip percentages
+         * - Add service quality ratings
+         * - Include tax calculations
+         * - Save calculation history
+         * - Add currency conversion
+         * ==========================================
+         */
+    </script>
+</body>
+</html>
