@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Calculator Template</title>
+    <style>
+        /* Clean, professional styling for financial calculations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f9b0f 0%, #00d084 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .calculator-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .description {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #0f9b0f;
+        }
+        
+        .tab.active {
+            color: #0f9b0f;
+            border-bottom-color: #0f9b0f;
+        }
+        
+        .calculator-section {
+            display: none;
+        }
+        
+        .calculator-section.active {
+            display: block;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #0f9b0f;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        button.calculate-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background: #0f9b0f;
+            color: white;
+            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button.calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(15, 155, 15, 0.4);
+        }
+        
+        .result-container {
+            background: #f0fdf4;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #0f9b0f;
+            display: none;
+        }
+        
+        .result-container.show {
+            display: block;
+        }
+        
+        .result-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .result-value {
+            color: #0f9b0f;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .result-breakdown {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+        }
+        
+        .info-box {
+            background: #e0f2fe;
+            border-left: 4px solid #0ea5e9;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            color: #0369a1;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #0f9b0f;
+        }
+        
+        /* Developer Credit Styling */
+        .developer-credit {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #e0e0e0;
+            background: linear-gradient(135deg, #0f9b0f 0%, #00d084 100%);
+            border-radius: 0 0 20px 20px;
+            margin: 30px -30px -30px -30px;
+        }
+        
+        .developer-credit p {
+            color: white;
+            font-size: 14px;
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .developer-credit .dev-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    ========================================
+    FINANCIAL CALCULATOR TEMPLATE
+    ========================================
+    This template demonstrates financial calculations:
+    1. Loan/Mortgage Payments
+    2. Investment Growth
+    3. Savings Goals
+    4. Tip Calculator
+    ========================================
+    -->
+    
+    <div class="calculator-container">
+        <h1>💰 Financial Calculator</h1>
+        <p class="description">Calculate loans, investments, savings, and tips</p>
+        
+        <!-- Tabs for different calculators -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('loan')">Loan</button>
+            <button class="tab" onclick="switchTab('investment')">Investment</button>
+            <button class="tab" onclick="switchTab('savings')">Savings</button>
+            <button class="tab" onclick="switchTab('tip')">Tip</button>
+        </div>
+        
+        <!-- Loan Calculator -->
+        <div id="loan" class="calculator-section active">
+            <h3 style="margin-bottom: 20px; color: #333;">Loan Payment Calculator</h3>
+            <div class="input-group">
+                <label for="loanAmount">Loan Amount ($)</label>
+                <input type="number" id="loanAmount" placeholder="Enter loan amount" step="0.01" min="0">
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="interestRate">Annual Interest Rate (%)</label>
+                    <input type="number" id="interestRate" placeholder="e.g., 5.5" step="0.01" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="loanTerm">Loan Term (years)</label>
+                    <input type="number" id="loanTerm" placeholder="e.g., 30" min="1">
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateLoan()">Calculate Payment</button>
+            
+            <div class="result-container" id="loanResult">
+                <div class="result-label">Monthly Payment:</div>
+                <div class="result-value" id="loanPayment">$0.00</div>
+                <div class="result-breakdown" id="loanBreakdown"></div>
+            </div>
+        </div>
+        
+        <!-- Investment Calculator -->
+        <div id="investment" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Investment Growth Calculator</h3>
+            <div class="input-group">
+                <label for="initialInvestment">Initial Investment ($)</label>
+                <input type="number" id="initialInvestment" placeholder="Starting amount" step="0.01" min="0">
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="monthlyContribution">Monthly Contribution ($)</label>
+                    <input type="number" id="monthlyContribution" placeholder="0" step="0.01" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="returnRate">Annual Return Rate (%)</label>
+                    <input type="number" id="returnRate" placeholder="e.g., 7" step="0.01">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="investmentYears">Investment Period (years)</label>
+                <input type="number" id="investmentYears" placeholder="e.g., 20" min="1">
+            </div>
+            <button class="calculate-btn" onclick="calculateInvestment()">Calculate Growth</button>
+            
+            <div class="result-container" id="investmentResult">
+                <div class="result-label">Future Value:</div>
+                <div class="result-value" id="futureValue">$0.00</div>
+                <div class="result-breakdown" id="investmentBreakdown"></div>
+            </div>
+        </div>
+        
+        <!-- Savings Goal Calculator -->
+        <div id="savings" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Savings Goal Calculator</h3>
+            <div class="input-group">
+                <label for="savingsGoal">Savings Goal ($)</label>
+                <input type="number" id="savingsGoal" placeholder="Target amount" step="0.01" min="0">
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="currentSavings">Current Savings ($)</label>
+                    <input type="number" id="currentSavings" placeholder="0" step="0.01" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="savingsTimeframe">Timeframe (months)</label>
+                    <input type="number" id="savingsTimeframe" placeholder="e.g., 24" min="1">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="savingsInterest">Interest Rate (% per year, optional)</label>
+                <input type="number" id="savingsInterest" placeholder="0" step="0.01" min="0">
+            </div>
+            <button class="calculate-btn" onclick="calculateSavings()">Calculate Required Savings</button>
+            
+            <div class="result-container" id="savingsResult">
+                <div class="result-label">Monthly Savings Required:</div>
+                <div class="result-value" id="monthlySavings">$0.00</div>
+                <div class="result-breakdown" id="savingsBreakdown"></div>
+            </div>
+        </div>
+        
+        <!-- Tip Calculator -->
+        <div id="tip" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Tip Calculator</h3>
+            <div class="input-group">
+                <label for="billAmount">Bill Amount ($)</label>
+                <input type="number" id="billAmount" placeholder="Enter bill amount" step="0.01" min="0">
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="tipPercent">Tip Percentage (%)</label>
+                    <input type="number" id="tipPercent" placeholder="e.g., 15, 18, 20" step="0.1" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="numPeople">Number of People</label>
+                    <input type="number" id="numPeople" placeholder="1" min="1" value="1">
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateTip()">Calculate Tip</button>
+            
+            <div class="result-container" id="tipResult">
+                <div class="result-label">Total Per Person:</div>
+                <div class="result-value" id="perPersonAmount">$0.00</div>
+                <div class="result-breakdown" id="tipBreakdown"></div>
+            </div>
+        </div>
+        
+        <!-- Educational Information -->
+        <div class="info-box">
+            <h3>💡 Financial Formulas</h3>
+            <p>
+                <strong>Loan Payment:</strong> Uses the amortization formula to calculate monthly payments.<br>
+                <strong>Investment Growth:</strong> Compound interest with regular contributions.<br>
+                <strong>Savings Goal:</strong> Determines required monthly savings to reach a goal.<br>
+                <strong>Tip Calculator:</strong> Calculates tip and splits bill among people.
+            </p>
+        </div>
+        
+        <!-- Developer Credit -->
+        <div class="developer-credit">
+            <p>Developed by</p>
+            <p class="dev-name">Rilov</p>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * Tab switching functionality
+         */
+        function switchTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.calculator-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section and activate tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        /**
+         * Calculate monthly loan payment using amortization formula
+         */
+        function calculateLoan() {
+            const principal = parseFloat(document.getElementById('loanAmount').value);
+            const annualRate = parseFloat(document.getElementById('interestRate').value);
+            const years = parseFloat(document.getElementById('loanTerm').value);
+            
+            if (isNaN(principal) || isNaN(annualRate) || isNaN(years)) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Convert annual rate to monthly and years to months
+            const monthlyRate = annualRate / 100 / 12;
+            const numPayments = years * 12;
+            
+            // Calculate monthly payment using amortization formula
+            let monthlyPayment;
+            if (monthlyRate === 0) {
+                monthlyPayment = principal / numPayments;
+            } else {
+                monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                                (Math.pow(1 + monthlyRate, numPayments) - 1);
+            }
+            
+            const totalPaid = monthlyPayment * numPayments;
+            const totalInterest = totalPaid - principal;
+            
+            // Display results
+            document.getElementById('loanPayment').textContent = `$${monthlyPayment.toFixed(2)}`;
+            document.getElementById('loanBreakdown').innerHTML = `
+                <div class="breakdown-item">
+                    <span>Loan Amount:</span>
+                    <span>$${principal.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Total Interest:</span>
+                    <span>$${totalInterest.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Total Paid:</span>
+                    <span>$${totalPaid.toFixed(2)}</span>
+                </div>
+            `;
+            document.getElementById('loanResult').classList.add('show');
+        }
+        
+        /**
+         * Calculate investment growth with compound interest
+         */
+        function calculateInvestment() {
+            const initial = parseFloat(document.getElementById('initialInvestment').value);
+            const monthly = parseFloat(document.getElementById('monthlyContribution').value) || 0;
+            const annualRate = parseFloat(document.getElementById('returnRate').value);
+            const years = parseFloat(document.getElementById('investmentYears').value);
+            
+            if (isNaN(initial) || isNaN(annualRate) || isNaN(years)) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const monthlyRate = annualRate / 100 / 12;
+            const months = years * 12;
+            
+            // Future value of initial investment
+            const fvInitial = initial * Math.pow(1 + monthlyRate, months);
+            
+            // Future value of monthly contributions (annuity)
+            let fvContributions = 0;
+            if (monthly > 0 && monthlyRate !== 0) {
+                fvContributions = monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+            } else if (monthly > 0) {
+                fvContributions = monthly * months;
+            }
+            
+            const futureValue = fvInitial + fvContributions;
+            const totalContributed = initial + (monthly * months);
+            const totalGain = futureValue - totalContributed;
+            
+            // Display results
+            document.getElementById('futureValue').textContent = `$${futureValue.toFixed(2)}`;
+            document.getElementById('investmentBreakdown').innerHTML = `
+                <div class="breakdown-item">
+                    <span>Total Contributed:</span>
+                    <span>$${totalContributed.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Investment Gains:</span>
+                    <span>$${totalGain.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>ROI:</span>
+                    <span>${((totalGain / totalContributed) * 100).toFixed(2)}%</span>
+                </div>
+            `;
+            document.getElementById('investmentResult').classList.add('show');
+        }
+        
+        /**
+         * Calculate required monthly savings to reach a goal
+         */
+        function calculateSavings() {
+            const goal = parseFloat(document.getElementById('savingsGoal').value);
+            const current = parseFloat(document.getElementById('currentSavings').value) || 0;
+            const months = parseFloat(document.getElementById('savingsTimeframe').value);
+            const annualRate = parseFloat(document.getElementById('savingsInterest').value) || 0;
+            
+            if (isNaN(goal) || isNaN(months)) {
+                alert('Please fill in savings goal and timeframe');
+                return;
+            }
+            
+            const remaining = goal - current;
+            const monthlyRate = annualRate / 100 / 12;
+            
+            let monthlySavings;
+            if (monthlyRate === 0) {
+                // Simple case: no interest
+                monthlySavings = remaining / months;
+            } else {
+                // With interest: solve for payment in future value of annuity formula
+                const fvCurrent = current * Math.pow(1 + monthlyRate, months);
+                const remainingNeeded = goal - fvCurrent;
+                monthlySavings = remainingNeeded / ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+            }
+            
+            const totalSaved = monthlySavings * months + current;
+            
+            // Display results
+            document.getElementById('monthlySavings').textContent = `$${monthlySavings.toFixed(2)}`;
+            document.getElementById('savingsBreakdown').innerHTML = `
+                <div class="breakdown-item">
+                    <span>Starting Amount:</span>
+                    <span>$${current.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Monthly Savings:</span>
+                    <span>$${monthlySavings.toFixed(2)} × ${months} months</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Savings Goal:</span>
+                    <span>$${goal.toFixed(2)}</span>
+                </div>
+            `;
+            document.getElementById('savingsResult').classList.add('show');
+        }
+        
+        /**
+         * Calculate tip and split bill
+         */
+        function calculateTip() {
+            const bill = parseFloat(document.getElementById('billAmount').value);
+            const tipPercent = parseFloat(document.getElementById('tipPercent').value);
+            const people = parseInt(document.getElementById('numPeople').value) || 1;
+            
+            if (isNaN(bill) || isNaN(tipPercent)) {
+                alert('Please enter bill amount and tip percentage');
+                return;
+            }
+            
+            const tipAmount = bill * (tipPercent / 100);
+            const total = bill + tipAmount;
+            const perPerson = total / people;
+            const tipPerPerson = tipAmount / people;
+            
+            // Display results
+            document.getElementById('perPersonAmount').textContent = `$${perPerson.toFixed(2)}`;
+            document.getElementById('tipBreakdown').innerHTML = `
+                <div class="breakdown-item">
+                    <span>Bill Amount:</span>
+                    <span>$${bill.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Tip (${tipPercent}%):</span>
+                    <span>$${tipAmount.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Total:</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Tip Per Person:</span>
+                    <span>$${tipPerPerson.toFixed(2)}</span>
+                </div>
+            `;
+            document.getElementById('tipResult').classList.add('show');
+        }
+    </script>
+</body>
+</html>
+
+
+

@@ -14,6 +14,22 @@ Welcome! This guide will teach you what Claude Skills are and how every piece of
 
 ---
 
+## 🎯 Quick Overview: What You Get
+
+This Claude Skill includes **5 comprehensive calculator templates**, each production-ready:
+
+| Template | Purpose | Key Features |
+|----------|---------|--------------|
+| 📊 **Basic** | Simple arithmetic | Add, subtract, multiply, divide |
+| 📈 **Percentage** | Percentage calculations | Find percentages, percentage change |
+| 💰 **Financial** | Money calculations | Loans, investments, savings, tips |
+| 🔄 **Converter** | Unit conversions | Length, weight, temperature, volume |
+| 💪 **Health** | Health metrics | BMI, BMR, body fat, water intake |
+
+**Each template features:** Beautiful design • Input validation • Educational comments • Responsive layout • Professional polish
+
+---
+
 ## What is a Claude Skill? {#what-is-skill}
 
 ### The Simple Answer
@@ -103,7 +119,8 @@ Claude thinks: "Okay, that's a financial calculator type"
 **Step 2: Use the Appropriate Template**
 ```
 Claude looks in /templates/ folder
-Finds: financial-calculator.html
+Finds: financial-calculator.html (has loan, investment, savings, and tip calculators)
+Focuses on: The tip calculator section
 ```
 
 **Step 3: Customize the Template**
@@ -343,10 +360,10 @@ graph TD
     B --> B2[Color themes]
     B --> B3[Any combination]
     
-    C --> C1[BMI Calculator]
-    C --> C2[Tip Calculator]
-    C --> C3[Age Calculator]
-    C --> C4[Discount Calculator]
+    C --> C1[Financial: Loan, Investment, Savings, Tip]
+    C --> C2[Health: BMI, BMR, Body Fat, Water]
+    C --> C3[Converter: Length, Weight, Temp, Volume]
+    C --> C4[Percentage: All types]
     
     style A fill:#ffb74d,color:#000000
     style B fill:#64b5f6,color:#000000
@@ -499,26 +516,70 @@ graph TB
 
 **Think of them as:** Cookie cutter shapes — you have the basic shape, then you decorate it however you want!
 
-### The Two Templates:
+### The Five Templates:
 
 ```mermaid
-graph LR
+graph TB
     A[📁 templates/] --> B[basic-calculator.html<br/>Simple 4-function calculator]
     A --> C[percentage-calculator.html<br/>Percentage calculations]
+    A --> D[financial-calculator.html<br/>Money calculations]
+    A --> E[converter-calculator.html<br/>Unit conversions]
+    A --> F[health-calculator.html<br/>Health metrics]
     
-    B --> B1[➕ Addition]
-    B --> B2[➖ Subtraction]
-    B --> B3[✖️ Multiplication]
-    B --> B4[➗ Division]
+    B --> B1[➕ Addition<br/>➖ Subtraction<br/>✖️ Multiplication<br/>➗ Division]
     
-    C --> C1[Find X% of Y]
-    C --> C2[What % is X of Y?]
-    C --> C3[Percentage change]
+    C --> C1[Find X% of Y<br/>What % is X of Y?<br/>Percentage change]
+    
+    D --> D1[Loan payments<br/>Investment growth<br/>Savings goals<br/>Tip calculator]
+    
+    E --> E1[Length, Weight<br/>Temperature<br/>Volume]
+    
+    F --> F1[BMI, BMR<br/>Ideal Weight<br/>Body Fat<br/>Water Intake]
     
     style A fill:#ffb74d
     style B fill:#64b5f6
     style C fill:#66bb6a
+    style D fill:#0f9b0f
+    style E fill:#6366f1
+    style F fill:#14b8a6
 ```
+
+### Template Details:
+
+Each template is a complete, production-ready calculator:
+
+**1. basic-calculator.html** 📊
+- Four basic operations: add, subtract, multiply, divide
+- Perfect for simple arithmetic needs
+- Clean, minimal interface
+
+**2. percentage-calculator.html** 📈
+- Calculate X% of Y
+- Find what % X is of Y
+- Calculate percentage change (increase/decrease)
+- Great for business and shopping calculations
+
+**3. financial-calculator.html** 💰
+- **Loan Calculator**: Monthly payments, total interest
+- **Investment Calculator**: Compound interest with contributions
+- **Savings Goal**: Required monthly savings
+- **Tip Calculator**: Bill splitting functionality
+- Uses real financial formulas (amortization, compound interest)
+
+**4. converter-calculator.html** 🔄
+- **Length**: meters, feet, miles, inches, etc.
+- **Weight**: kg, lbs, ounces, tons
+- **Temperature**: Celsius, Fahrenheit, Kelvin
+- **Volume**: liters, gallons, cups, fluid ounces
+- Swap button for quick conversion reversal
+
+**5. health-calculator.html** 💪
+- **BMI**: Body Mass Index with category indicators
+- **BMR**: Basal Metabolic Rate (Mifflin-St Jeor equation)
+- **Ideal Weight**: Using Devine formula
+- **Body Fat**: US Navy method (with gender-specific calculations)
+- **Water Intake**: Daily hydration recommendations
+- Includes medical disclaimer
 
 ### How Templates Work:
 
@@ -539,6 +600,34 @@ graph LR
 ```
 
 **Same structure, different content!**
+
+### Common Features Across All Templates:
+
+Every template includes these professional features:
+
+✨ **Beautiful Design**
+- Unique gradient backgrounds (each template has its own color scheme)
+- Modern, clean interface with rounded corners
+- Smooth animations and transitions
+- Fully responsive (works on phones, tablets, computers)
+
+🛡️ **Robust Functionality**
+- Input validation (checks for valid numbers)
+- Error handling (helpful error messages)
+- Clear labels and instructions
+- Result formatting (proper decimal places, units)
+
+📚 **Educational Elements**
+- Code comments explaining how everything works
+- Information boxes explaining formulas and concepts
+- Educational tooltips and guidance
+- "How it works" sections
+
+👤 **Professional Polish**
+- Developer credit section (customizable)
+- Consistent styling and branding
+- Print-friendly layouts
+- Accessibility considerations
 
 ### Why Templates Are Awesome:
 
@@ -564,7 +653,7 @@ graph TD
 
 **Think of them as:** The display case at a bakery showing finished cakes, so you know what you can order!
 
-### The Two Examples:
+### The Examples:
 
 ```mermaid
 graph TB
@@ -949,13 +1038,15 @@ python scripts/demo.py all
 
 ✅ **scripts/ contains Python programs** that give Claude superpowers for complex calculations
 
-✅ **templates/ has reusable designs** that Claude customizes for your needs
+✅ **templates/ has 5 reusable designs** (basic, percentage, financial, converter, health) that Claude customizes for your needs
 
 ✅ **examples/ shows working demos** that Claude learns from
 
 ✅ **references/ has formulas and facts** that Claude looks up for accuracy
 
 ✅ **Everything works together** like a well-organized kitchen with recipe books, tools, and ingredients
+
+✅ **All 5 templates are production-ready** with beautiful designs, validation, error handling, and educational comments
 
 ### The Big Picture
 
@@ -1002,10 +1093,10 @@ graph TD
 
 Claude Skills are **not magic** — they're carefully organized collections of:
 - 📝 Instructions (SKILL.md)
-- 🏗️ Templates (templates/)
-- ⚡ Tools (scripts/)
-- 📚 Examples (examples/)
-- 📖 References (references/)
+- 🏗️ Templates (5 comprehensive calculators: basic, percentage, financial, converter, health)
+- ⚡ Tools (Python scripts for complex calculations)
+- 📚 Examples (working demonstrations)
+- 📖 References (accurate formulas and information)
 
 Working together, they make Claude a specialist who can:
 - Follow proven workflows
@@ -1013,8 +1104,16 @@ Working together, they make Claude a specialist who can:
 - Look up accurate information
 - Create consistent quality
 - Explain everything clearly
+- Build production-ready calculators instantly
 
 **It's like giving Claude a complete education in calculator building!**
+
+This skill now covers virtually every common calculator need:
+- **Basic Math** ➕➖✖️➗
+- **Business & Finance** 💰 (loans, investments, tips)
+- **Health & Fitness** 💪 (BMI, BMR, body fat)
+- **Conversions** 🔄 (length, weight, temperature, volume)
+- **Percentages** 📈 (all common percentage calculations)
 
 ---
 
@@ -1031,10 +1130,11 @@ Notice the quality and consistency
 
 **2. Modify This Skill** ✏️
 ```
-Add new templates
+Add new templates to the existing 5 (basic, percentage, financial, converter, health)
 Include more formulas in references
-Extend the Python scripts
-Create new calculator types
+Extend the Python scripts with new calculation types
+Customize colors and branding
+Add more calculator variations to existing templates
 ```
 
 **3. Create Your Own Skill** 🚀

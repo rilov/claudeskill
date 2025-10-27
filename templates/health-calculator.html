@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Calculator Template</title>
+    <style>
+        /* Clean, health-focused styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .calculator-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .description {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #14b8a6;
+        }
+        
+        .tab.active {
+            color: #14b8a6;
+            border-bottom-color: #14b8a6;
+        }
+        
+        .calculator-section {
+            display: none;
+        }
+        
+        .calculator-section.active {
+            display: block;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #14b8a6;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        button.calculate-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background: #14b8a6;
+            color: white;
+            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button.calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(20, 184, 166, 0.4);
+        }
+        
+        .result-container {
+            background: #f0fdfa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #14b8a6;
+            display: none;
+        }
+        
+        .result-container.show {
+            display: block;
+        }
+        
+        .result-main {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .result-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .result-value {
+            color: #14b8a6;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .result-category {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .result-category.underweight {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .result-category.normal {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .result-category.overweight {
+            background: #fed7aa;
+            color: #92400e;
+        }
+        
+        .result-category.obese {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        
+        .result-details {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            color: #92400e;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .disclaimer {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #991b1b;
+        }
+        
+        /* Developer Credit Styling */
+        .developer-credit {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #e0e0e0;
+            background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+            border-radius: 0 0 20px 20px;
+            margin: 30px -30px -30px -30px;
+        }
+        
+        .developer-credit p {
+            color: white;
+            font-size: 14px;
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .developer-credit .dev-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    ========================================
+    HEALTH CALCULATOR TEMPLATE
+    ========================================
+    This template provides health calculations:
+    1. BMI (Body Mass Index)
+    2. BMR (Basal Metabolic Rate)
+    3. Ideal Body Weight
+    4. Body Fat Percentage
+    5. Water Intake
+    ========================================
+    -->
+    
+    <div class="calculator-container">
+        <h1>💪 Health Calculator</h1>
+        <p class="description">Calculate important health metrics</p>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('bmi')">BMI</button>
+            <button class="tab" onclick="switchTab('bmr')">BMR</button>
+            <button class="tab" onclick="switchTab('ibw')">Ideal Weight</button>
+            <button class="tab" onclick="switchTab('bodyfat')">Body Fat</button>
+            <button class="tab" onclick="switchTab('water')">Water Intake</button>
+        </div>
+        
+        <!-- BMI Calculator -->
+        <div id="bmi" class="calculator-section active">
+            <h3 style="margin-bottom: 20px; color: #333;">Body Mass Index (BMI)</h3>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="bmiWeight">Weight (kg)</label>
+                    <input type="number" id="bmiWeight" placeholder="Enter weight" step="0.1" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="bmiHeight">Height (cm)</label>
+                    <input type="number" id="bmiHeight" placeholder="Enter height" step="0.1" min="0">
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
+            
+            <div class="result-container" id="bmiResult">
+                <div class="result-main">
+                    <div class="result-label">Your BMI:</div>
+                    <div class="result-value" id="bmiValue">0</div>
+                    <div class="result-category" id="bmiCategory"></div>
+                </div>
+                <div class="result-details" id="bmiDetails"></div>
+            </div>
+        </div>
+        
+        <!-- BMR Calculator -->
+        <div id="bmr" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Basal Metabolic Rate (BMR)</h3>
+            <div class="input-group">
+                <label>Gender</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="bmrMale" name="bmrGender" value="male" checked>
+                        <label for="bmrMale" style="margin: 0;">Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="bmrFemale" name="bmrGender" value="female">
+                        <label for="bmrFemale" style="margin: 0;">Female</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="bmrAge">Age (years)</label>
+                    <input type="number" id="bmrAge" placeholder="Enter age" min="1">
+                </div>
+                <div class="input-group">
+                    <label for="bmrWeight">Weight (kg)</label>
+                    <input type="number" id="bmrWeight" placeholder="Enter weight" step="0.1" min="0">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="bmrHeight">Height (cm)</label>
+                <input type="number" id="bmrHeight" placeholder="Enter height" step="0.1" min="0">
+            </div>
+            <div class="input-group">
+                <label for="activityLevel">Activity Level</label>
+                <select id="activityLevel">
+                    <option value="1.2">Sedentary (little or no exercise)</option>
+                    <option value="1.375">Lightly active (1-3 days/week)</option>
+                    <option value="1.55" selected>Moderately active (3-5 days/week)</option>
+                    <option value="1.725">Very active (6-7 days/week)</option>
+                    <option value="1.9">Extremely active (athlete)</option>
+                </select>
+            </div>
+            <button class="calculate-btn" onclick="calculateBMR()">Calculate BMR</button>
+            
+            <div class="result-container" id="bmrResult">
+                <div class="result-main">
+                    <div class="result-label">Daily Calorie Needs:</div>
+                    <div class="result-value" id="bmrValue">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 10px;">calories/day</div>
+                </div>
+                <div class="result-details" id="bmrDetails"></div>
+            </div>
+        </div>
+        
+        <!-- Ideal Body Weight Calculator -->
+        <div id="ibw" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Ideal Body Weight</h3>
+            <div class="input-group">
+                <label>Gender</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="ibwMale" name="ibwGender" value="male" checked>
+                        <label for="ibwMale" style="margin: 0;">Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="ibwFemale" name="ibwGender" value="female">
+                        <label for="ibwFemale" style="margin: 0;">Female</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="ibwHeight">Height (cm)</label>
+                <input type="number" id="ibwHeight" placeholder="Enter height" step="0.1" min="0">
+            </div>
+            <button class="calculate-btn" onclick="calculateIBW()">Calculate Ideal Weight</button>
+            
+            <div class="result-container" id="ibwResult">
+                <div class="result-main">
+                    <div class="result-label">Ideal Body Weight:</div>
+                    <div class="result-value" id="ibwValue">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 10px;">kg</div>
+                </div>
+                <div class="result-details" id="ibwDetails"></div>
+            </div>
+        </div>
+        
+        <!-- Body Fat Calculator -->
+        <div id="bodyfat" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Body Fat Percentage (US Navy Method)</h3>
+            <div class="input-group">
+                <label>Gender</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="bfMale" name="bfGender" value="male" checked onclick="toggleWaistField()">
+                        <label for="bfMale" style="margin: 0;">Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="bfFemale" name="bfGender" value="female" onclick="toggleWaistField()">
+                        <label for="bfFemale" style="margin: 0;">Female</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="bfHeight">Height (cm)</label>
+                    <input type="number" id="bfHeight" placeholder="Height" step="0.1" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="bfNeck">Neck (cm)</label>
+                    <input type="number" id="bfNeck" placeholder="Neck circumference" step="0.1" min="0">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="bfWaist">Waist (cm)</label>
+                    <input type="number" id="bfWaist" placeholder="Waist circumference" step="0.1" min="0">
+                </div>
+                <div class="input-group" id="hipGroup">
+                    <label for="bfHip">Hip (cm) - Female only</label>
+                    <input type="number" id="bfHip" placeholder="Hip circumference" step="0.1" min="0" disabled>
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateBodyFat()">Calculate Body Fat</button>
+            
+            <div class="result-container" id="bodyfatResult">
+                <div class="result-main">
+                    <div class="result-label">Body Fat Percentage:</div>
+                    <div class="result-value" id="bodyfatValue">0</div>
+                    <div class="result-category" id="bodyfatCategory"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Water Intake Calculator -->
+        <div id="water" class="calculator-section">
+            <h3 style="margin-bottom: 20px; color: #333;">Daily Water Intake</h3>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="waterWeight">Weight (kg)</label>
+                    <input type="number" id="waterWeight" placeholder="Enter weight" step="0.1" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="activityTime">Exercise Time (min/day)</label>
+                    <input type="number" id="activityTime" placeholder="0" min="0" value="0">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="climate">Climate</label>
+                <select id="climate">
+                    <option value="1">Normal</option>
+                    <option value="1.15">Hot/Humid</option>
+                </select>
+            </div>
+            <button class="calculate-btn" onclick="calculateWater()">Calculate Water Intake</button>
+            
+            <div class="result-container" id="waterResult">
+                <div class="result-main">
+                    <div class="result-label">Recommended Daily Water Intake:</div>
+                    <div class="result-value" id="waterValue">0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 10px;">liters/day</div>
+                </div>
+                <div class="result-details" id="waterDetails"></div>
+            </div>
+        </div>
+        
+        <!-- Information Box -->
+        <div class="info-box">
+            <h3>📊 Health Metrics Guide</h3>
+            <p>
+                These calculators use standard medical formulas to estimate health metrics. 
+                BMI ranges: Underweight (&lt;18.5), Normal (18.5-24.9), Overweight (25-29.9), Obese (≥30).
+                BMR uses the Mifflin-St Jeor equation for accuracy.
+            </p>
+        </div>
+        
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>⚠️ Medical Disclaimer:</strong> These calculations are for informational purposes only. 
+            Always consult with healthcare professionals for medical advice, diagnosis, or treatment.
+        </div>
+        
+        <!-- Developer Credit -->
+        <div class="developer-credit">
+            <p>Developed by</p>
+            <p class="dev-name">Rilov</p>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * Tab switching functionality
+         */
+        function switchTab(tabName) {
+            document.querySelectorAll('.calculator-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        /**
+         * Calculate BMI (Body Mass Index)
+         */
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('bmiWeight').value);
+            const height = parseFloat(document.getElementById('bmiHeight').value) / 100; // convert to meters
+            
+            if (isNaN(weight) || isNaN(height) || height === 0) {
+                alert('Please enter valid weight and height');
+                return;
+            }
+            
+            const bmi = weight / (height * height);
+            let category, categoryClass;
+            
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                categoryClass = 'underweight';
+            } else if (bmi < 25) {
+                category = 'Normal Weight';
+                categoryClass = 'normal';
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                categoryClass = 'overweight';
+            } else {
+                category = 'Obese';
+                categoryClass = 'obese';
+            }
+            
+            document.getElementById('bmiValue').textContent = bmi.toFixed(1);
+            const categoryEl = document.getElementById('bmiCategory');
+            categoryEl.textContent = category;
+            categoryEl.className = `result-category ${categoryClass}`;
+            
+            document.getElementById('bmiDetails').innerHTML = `
+                <div class="detail-item">
+                    <span>Weight:</span>
+                    <span>${weight.toFixed(1)} kg</span>
+                </div>
+                <div class="detail-item">
+                    <span>Height:</span>
+                    <span>${(height * 100).toFixed(1)} cm</span>
+                </div>
+                <div class="detail-item">
+                    <span>Healthy BMI range:</span>
+                    <span>18.5 - 24.9</span>
+                </div>
+            `;
+            
+            document.getElementById('bmiResult').classList.add('show');
+        }
+        
+        /**
+         * Calculate BMR (Basal Metabolic Rate) using Mifflin-St Jeor equation
+         */
+        function calculateBMR() {
+            const gender = document.querySelector('input[name="bmrGender"]:checked').value;
+            const age = parseFloat(document.getElementById('bmrAge').value);
+            const weight = parseFloat(document.getElementById('bmrWeight').value);
+            const height = parseFloat(document.getElementById('bmrHeight').value);
+            const activityLevel = parseFloat(document.getElementById('activityLevel').value);
+            
+            if (isNaN(age) || isNaN(weight) || isNaN(height)) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Mifflin-St Jeor Equation
+            let bmr;
+            if (gender === 'male') {
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+            } else {
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+            }
+            
+            const tdee = bmr * activityLevel;
+            
+            document.getElementById('bmrValue').textContent = Math.round(tdee);
+            
+            document.getElementById('bmrDetails').innerHTML = `
+                <div class="detail-item">
+                    <span>BMR (resting):</span>
+                    <span>${Math.round(bmr)} cal/day</span>
+                </div>
+                <div class="detail-item">
+                    <span>Maintain weight:</span>
+                    <span>${Math.round(tdee)} cal/day</span>
+                </div>
+                <div class="detail-item">
+                    <span>Mild weight loss:</span>
+                    <span>${Math.round(tdee - 250)} cal/day</span>
+                </div>
+                <div class="detail-item">
+                    <span>Weight loss:</span>
+                    <span>${Math.round(tdee - 500)} cal/day</span>
+                </div>
+            `;
+            
+            document.getElementById('bmrResult').classList.add('show');
+        }
+        
+        /**
+         * Calculate Ideal Body Weight using Devine formula
+         */
+        function calculateIBW() {
+            const gender = document.querySelector('input[name="ibwGender"]:checked').value;
+            const height = parseFloat(document.getElementById('ibwHeight').value);
+            
+            if (isNaN(height) || height < 152) {
+                alert('Please enter a valid height (must be at least 152 cm)');
+                return;
+            }
+            
+            // Devine formula
+            const heightInInches = height / 2.54;
+            let ibw;
+            
+            if (gender === 'male') {
+                ibw = 50 + 2.3 * (heightInInches - 60);
+            } else {
+                ibw = 45.5 + 2.3 * (heightInInches - 60);
+            }
+            
+            const minHealthy = ibw * 0.9;
+            const maxHealthy = ibw * 1.1;
+            
+            document.getElementById('ibwValue').textContent = ibw.toFixed(1);
+            
+            document.getElementById('ibwDetails').innerHTML = `
+                <div class="detail-item">
+                    <span>Ideal weight:</span>
+                    <span>${ibw.toFixed(1)} kg</span>
+                </div>
+                <div class="detail-item">
+                    <span>Healthy range:</span>
+                    <span>${minHealthy.toFixed(1)} - ${maxHealthy.toFixed(1)} kg</span>
+                </div>
+            `;
+            
+            document.getElementById('ibwResult').classList.add('show');
+        }
+        
+        /**
+         * Toggle hip field for body fat calculation
+         */
+        function toggleWaistField() {
+            const gender = document.querySelector('input[name="bfGender"]:checked').value;
+            const hipInput = document.getElementById('bfHip');
+            
+            if (gender === 'female') {
+                hipInput.disabled = false;
+            } else {
+                hipInput.disabled = true;
+                hipInput.value = '';
+            }
+        }
+        
+        /**
+         * Calculate Body Fat Percentage using US Navy method
+         */
+        function calculateBodyFat() {
+            const gender = document.querySelector('input[name="bfGender"]:checked').value;
+            const height = parseFloat(document.getElementById('bfHeight').value);
+            const neck = parseFloat(document.getElementById('bfNeck').value);
+            const waist = parseFloat(document.getElementById('bfWaist').value);
+            const hip = parseFloat(document.getElementById('bfHip').value);
+            
+            if (isNaN(height) || isNaN(neck) || isNaN(waist)) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (gender === 'female' && isNaN(hip)) {
+                alert('Please enter hip measurement for females');
+                return;
+            }
+            
+            let bodyFat;
+            
+            if (gender === 'male') {
+                bodyFat = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+            } else {
+                bodyFat = 495 / (1.29579 - 0.35004 * Math.log10(waist + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+            }
+            
+            let category, categoryClass;
+            
+            if (gender === 'male') {
+                if (bodyFat < 6) { category = 'Essential Fat'; categoryClass = 'underweight'; }
+                else if (bodyFat < 14) { category = 'Athletic'; categoryClass = 'normal'; }
+                else if (bodyFat < 18) { category = 'Fitness'; categoryClass = 'normal'; }
+                else if (bodyFat < 25) { category = 'Average'; categoryClass = 'normal'; }
+                else { category = 'Obese'; categoryClass = 'obese'; }
+            } else {
+                if (bodyFat < 14) { category = 'Essential Fat'; categoryClass = 'underweight'; }
+                else if (bodyFat < 21) { category = 'Athletic'; categoryClass = 'normal'; }
+                else if (bodyFat < 25) { category = 'Fitness'; categoryClass = 'normal'; }
+                else if (bodyFat < 32) { category = 'Average'; categoryClass = 'normal'; }
+                else { category = 'Obese'; categoryClass = 'obese'; }
+            }
+            
+            document.getElementById('bodyfatValue').textContent = bodyFat.toFixed(1) + '%';
+            const categoryEl = document.getElementById('bodyfatCategory');
+            categoryEl.textContent = category;
+            categoryEl.className = `result-category ${categoryClass}`;
+            
+            document.getElementById('bodyfatResult').classList.add('show');
+        }
+        
+        /**
+         * Calculate daily water intake
+         */
+        function calculateWater() {
+            const weight = parseFloat(document.getElementById('waterWeight').value);
+            const activityTime = parseFloat(document.getElementById('activityTime').value) || 0;
+            const climate = parseFloat(document.getElementById('climate').value);
+            
+            if (isNaN(weight)) {
+                alert('Please enter your weight');
+                return;
+            }
+            
+            // Base calculation: 30-35 ml per kg
+            let waterIntake = weight * 0.033; // liters
+            
+            // Add for exercise (0.5L per 30 min)
+            waterIntake += (activityTime / 30) * 0.5;
+            
+            // Adjust for climate
+            waterIntake *= climate;
+            
+            const glasses = Math.round(waterIntake / 0.25); // 250ml glasses
+            
+            document.getElementById('waterValue').textContent = waterIntake.toFixed(1);
+            
+            document.getElementById('waterDetails').innerHTML = `
+                <div class="detail-item">
+                    <span>Approximately:</span>
+                    <span>${glasses} glasses (250ml each)</span>
+                </div>
+                <div class="detail-item">
+                    <span>Morning (on waking):</span>
+                    <span>2 glasses</span>
+                </div>
+                <div class="detail-item">
+                    <span>Throughout day:</span>
+                    <span>${glasses - 2} glasses</span>
+                </div>
+            `;
+            
+            document.getElementById('waterResult').classList.add('show');
+        }
+    </script>
+</body>
+</html>
+
+
+
